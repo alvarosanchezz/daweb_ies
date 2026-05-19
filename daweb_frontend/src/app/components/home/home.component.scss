@@ -1,0 +1,59 @@
+.home-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  &__icon { font-size: 4rem; margin-bottom: 1rem; }
+
+  h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 0.75rem;
+  }
+
+  &__subtitle {
+    color: #64748b;
+    font-size: 1.1rem;
+  }
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.nav-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    border-color: #6366f1;
+  }
+
+  &__icon { font-size: 2.2rem; flex-shrink: 0; }
+
+  &__body {
+    flex: 1;
+    h3 { margin: 0 0 0.25rem; font-size: 1rem; font-weight: 600; color: #1e293b; }
+    p  { margin: 0; font-size: 0.82rem; color: #64748b; line-height: 1.4; }
+  }
+
+  &__arrow { font-size: 1.2rem; color: #6366f1; flex-shrink: 0; }
+}

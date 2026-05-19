@@ -1,0 +1,38 @@
+<nav class="navbar">
+  <div class="navbar__brand">
+    <span class="navbar__logo">🎓</span>
+    <span class="navbar__title">IES <span class="navbar__title--accent">Alcores</span></span>
+  </div>
+
+  <button class="navbar__hamburger" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="navbar__links" [class.active]="menuOpen">
+    <li>
+      <a routerLink="/home" routerLinkActive="active" (click)="menuOpen=false">
+        <span class="nav-icon">🏠</span> Inicio
+      </a>
+    </li>
+    <li>
+      <a routerLink="/alumnos" routerLinkActive="active" (click)="menuOpen=false">
+        <span class="nav-icon">👩‍🎓</span> Alumnos
+      </a>
+    </li>
+    <li>
+      <a routerLink="/profesores" routerLinkActive="active" (click)="menuOpen=false">
+        <span class="nav-icon">👨‍🏫</span> Profesores
+      </a>
+    </li>
+    <li>
+      <a routerLink="/asignaturas" routerLinkActive="active" (click)="menuOpen=false">
+        <span class="nav-icon">📚</span> Asignaturas
+      </a>
+    </li>
+    <li>
+      <a routerLink="/matriculas" routerLinkActive="active" (click)="menuOpen=false">
+        <span class="nav-icon">📋</span> Matrículas
+      </a>
+    </li>
+  </ul>
+</nav>

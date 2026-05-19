@@ -1,0 +1,119 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(13, 17, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  &__logo {
+    font-size: 1.6rem;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    letter-spacing: 0.02em;
+
+    &--accent {
+      background: linear-gradient(135deg, #6366f1, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  }
+
+  &__links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+
+    li a {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(99, 102, 241, 0.12);
+        color: #e2e8f0;
+      }
+
+      &.active {
+        background: rgba(99, 102, 241, 0.2);
+        color: #818cf8;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+    }
+  }
+
+  .nav-icon {
+    font-size: 1rem;
+  }
+
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+
+    span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #94a3b8;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    &.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    &.open span:nth-child(2) { opacity: 0; }
+    &.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 1rem;
+
+    &__hamburger { display: flex; }
+
+    &__links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      padding: 0.75rem 0;
+
+      &.active { display: flex; }
+
+      li a { padding: 0.7rem 1rem; }
+    }
+  }
+}
