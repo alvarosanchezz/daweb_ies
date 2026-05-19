@@ -1,0 +1,71 @@
+<div class="container">
+  <header class="page-header">
+    <div class="title-section">
+      <h1>Gestión de <span class="accent">Alumnos</span></h1>
+      <p>Visualiza y gestiona la información de los estudiantes matriculados.</p>
+    </div>
+    <button class="btn-refresh" (click)="loadAlumnos()" [disabled]="alumnosLoading()">
+      <span class="icon">🔄</span> Actualizar
+    </button>
+  </header>
+
+  @if (alumnosLoading()) {
+    <div class="loader-container">
+      <div class="loader"></div>
+      <p>Cargando alumnos...</p>
+    </div>
+  }
+
+  @if (alumnosError()) {
+    <div class="error-card">
+      <span class="error-icon">⚠️</span>
+      <p>Error al cargar los alumnos. Asegúrate de que el backend está ejecutándose.</p>
+    </div>
+  }
+
+  @if (!alumnosLoading() && !alumnosError()) {
+    @let data = alumnosValue();
+
+    @if (data.length === 0) {
+      <div class="empty-state">
+        <span class="empty-icon">📂</span>
+        <p>No se encontraron alumnos en la base de datos.</p>
+      </div>
+    }
+
+    @if (data.length > 0) {
+      <div class="table-container">
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre Completo</th>
+              <th>iPasen</th>
+              <th class="actions">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (alumno of data; track alumno.id) {
+              <tr>
+                <td><span class="badge-id">#{{ alumno.id }}</span></td>
+                <td>
+                  <div class="user-info">
+                    <div class="avatar">{{ alumno.nombre.charAt(0) }}{{ alumno.apellidos.charAt(0) }}</div>
+                    <div class="details">
+                      <span class="name">{{ alumno.nombre }} {{ alumno.apellidos }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td><code>{{ alumno.ipasen }}</code></td>
+                <td class="actions">
+                  <button class="btn-icon" title="Ver detalles">👁️</button>
+                  <button class="btn-icon btn-edit" title="Editar">✏️</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</div>

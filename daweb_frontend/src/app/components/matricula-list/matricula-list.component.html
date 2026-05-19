@@ -1,0 +1,85 @@
+<div class="container">
+  <header class="page-header">
+    <div class="title-section">
+      <h1>Gestión de <span class="accent">Matrículas</span></h1>
+      <p>Registro de inscripciones de alumnos en asignaturas con notas medias.</p>
+    </div>
+    <button class="btn-refresh" (click)="loadMatriculas()" [disabled]="matriculasLoading()">
+      <span class="icon">🔄</span> Actualizar
+    </button>
+  </header>
+
+  @if (matriculasLoading()) {
+    <div class="loader-container">
+      <div class="loader"></div>
+      <p>Cargando matrículas...</p>
+    </div>
+  }
+
+  @if (matriculasError()) {
+    <div class="error-card">
+      <span class="error-icon">⚠️</span>
+      <p>Error al cargar las matrículas. Comprueba que el backend está activo.</p>
+    </div>
+  }
+
+  @if (!matriculasLoading() && !matriculasError()) {
+    @let data = matriculasValue();
+
+    @if (data.length === 0) {
+      <div class="empty-state">
+        <span style="font-size:3rem">📂</span>
+        <p>No se encontraron matrículas en la base de datos.</p>
+      </div>
+    }
+
+    @if (data.length > 0) {
+      <div class="table-container">
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Alumno</th>
+              <th>Asignatura</th>
+              <th>Curso</th>
+              <th>Nota Media</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (m of data; track m.id) {
+              <tr>
+                <td><span class="badge-id">#{{ m.id }}</span></td>
+                <td>
+                  @if (m.alumno) {
+                    <div class="user-info">
+                      <div class="avatar">{{ m.alumno.nombre.charAt(0) }}{{ m.alumno.apellidos.charAt(0) }}</div>
+                      <span>{{ m.alumno.nombre }} {{ m.alumno.apellidos }}</span>
+                    </div>
+                  } @else {
+                    <span class="no-data">Sin datos</span>
+                  }
+                </td>
+                <td>
+                  @if (m.asignatura) {
+                    <span>📚 {{ m.asignatura.nombre }}</span>
+                  } @else {
+                    <span class="no-data">Sin datos</span>
+                  }
+                </td>
+                <td><span class="curso-badge">{{ m.curso }}º</span></td>
+                <td>
+                  <span class="nota-badge"
+                        [style.background]="getNotaColor(m.notaMedia) + '22'"
+                        [style.color]="getNotaColor(m.notaMedia)"
+                        [style.border]="'1px solid ' + getNotaColor(m.notaMedia) + '55'">
+                    {{ m.notaMedia | number:'1.2-2' }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</div>

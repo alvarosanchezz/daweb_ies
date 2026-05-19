@@ -1,0 +1,132 @@
+<div class="container">
+  <header class="page-header">
+    <div class="title-section">
+      <h1>Gestión de <span class="accent">Asignaturas</span></h1>
+      <p>Listado de materias y su carga horaria por docente.</p>
+    </div>
+    <button class="btn-refresh" (click)="loadAsignaturas()" [disabled]="asignaturasLoading()">
+      <span class="icon">🔄</span> Actualizar
+    </button>
+  </header>
+
+  @if (asignaturasLoading()) {
+    <div class="loader-container">
+      <div class="loader"></div>
+      <p>Cargando asignaturas...</p>
+    </div>
+  }
+
+  @if (asignaturasError()) {
+    <div class="error-card">
+      <span class="error-icon">⚠️</span>
+      <p>Error al cargar las asignaturas. Comprueba que el backend está activo.</p>
+    </div>
+  }
+
+  @if (!asignaturasLoading() && !asignaturasError()) {
+    @let data = asignaturasValue();
+
+    @if (data.length === 0) {
+      <div class="empty-state">
+        <span style="font-size:3rem">📂</span>
+        <p>No se encontraron asignaturas en la base de datos.</p>
+      </div>
+    }
+
+    @if (data.length > 0) {
+      <div class="table-container">
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Asignatura</th>
+              <th>Horas</th>
+              <th>Profesor</th>
+              <th>Alumnos</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (asig of data; track asig.id) {
+              <tr [class.row-expanded]="expandedId() === asig.id">
+                <td><span class="badge-id">#{{ asig.id }}</span></td>
+                <td>
+                  <div class="subject-info">
+                    <span class="subject-icon">📚</span>
+                    <strong>{{ asig.nombre }}</strong>
+                  </div>
+                </td>
+                <td>
+                  <span class="hours-badge">{{ asig.horas }}h</span>
+                </td>
+                <td>
+                  @if (asig.profesor) {
+                    <div class="teacher-info">
+                      <div class="avatar-sm">{{ asig.profesor.nombre.charAt(0) }}{{ asig.profesor.apellidos.charAt(0) }}</div>
+                      <span>{{ asig.profesor.nombre }} {{ asig.profesor.apellidos }}</span>
+                    </div>
+                  } @else {
+                    <span class="no-data">Sin asignar</span>
+                  }
+                </td>
+                <td>
+                  <button class="btn-ver-alumnos" [class.active]="expandedId() === asig.id" (click)="verAlumnos(asig.id)">
+                    @if (expandedId() === asig.id) {
+                      <span>▲</span> Cerrar
+                    } @else {
+                      <span>👥</span> Ver alumnos
+                    }
+                  </button>
+                </td>
+              </tr>
+
+              @if (expandedId() === asig.id) {
+                <tr class="expanded-row">
+                  <td colspan="5">
+                    <div class="alumnos-panel">
+                      @if (alumnosPanelLoading()) {
+                        <div class="panel-loading">
+                          <div class="loader-sm"></div>
+                          <span>Cargando alumnos matriculados...</span>
+                        </div>
+                      } @else if (alumnosPanelError()) {
+                        <div class="panel-empty">
+                          <span>⚠️</span>
+                          <span>Error al cargar los alumnos.</span>
+                        </div>
+                      } @else {
+                        @let alumnos = alumnosPanelValue();
+
+                        @if (alumnos.length === 0) {
+                          <div class="panel-empty">
+                            <span>📭</span>
+                            <span>No hay alumnos matriculados en esta asignatura.</span>
+                          </div>
+                        } @else {
+                          <div class="panel-header">
+                            <span class="panel-title">Alumnos matriculados en <strong>{{ asig.nombre }}</strong></span>
+                            <span class="panel-count">{{ alumnos.length }} alumno{{ alumnos.length !== 1 ? 's' : '' }}</span>
+                          </div>
+                          <div class="alumnos-grid">
+                            @for (alumno of alumnos; track alumno.id) {
+                              <div class="alumno-chip">
+                                <div class="avatar-xs">{{ alumno.nombre.charAt(0) }}{{ alumno.apellidos.charAt(0) }}</div>
+                                <div class="alumno-chip__info">
+                                  <span class="alumno-chip__name">{{ alumno.nombre }} {{ alumno.apellidos }}</span>
+                                  <code class="alumno-chip__ipasen">{{ alumno.ipasen }}</code>
+                                </div>
+                              </div>
+                            }
+                          </div>
+                        }
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</div>

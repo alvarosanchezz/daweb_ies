@@ -1,0 +1,56 @@
+<div class="container">
+  <header class="page-header">
+    <div class="title-section">
+      <h1>Gestión de <span class="accent">Profesores</span></h1>
+      <p>Consulta el claustro docente del centro educativo.</p>
+    </div>
+    <button class="btn-refresh" (click)="loadProfesores()" [disabled]="profesoresLoading()">
+      <span class="icon">🔄</span> Actualizar
+    </button>
+  </header>
+
+  @if (profesoresLoading()) {
+    <div class="loader-container">
+      <div class="loader"></div>
+      <p>Cargando profesores...</p>
+    </div>
+  }
+
+  @if (profesoresError()) {
+    <div class="error-card">
+      <span class="error-icon">⚠️</span>
+      <p>Error al cargar los profesores. Comprueba que el backend está activo.</p>
+    </div>
+  }
+
+  @if (!profesoresLoading() && !profesoresError()) {
+    @let data = profesoresValue();
+
+    @if (data.length === 0) {
+      <div class="empty-state">
+        <span style="font-size:3rem">📂</span>
+        <p>No se encontraron profesores en la base de datos.</p>
+      </div>
+    }
+
+    @if (data.length > 0) {
+      <div class="cards-grid">
+        @for (profesor of data; track profesor.id) {
+          <div class="card">
+            <div class="card__header">
+              <div class="avatar">{{ profesor.nombre.charAt(0) }}{{ profesor.apellidos.charAt(0) }}</div>
+              <span class="badge-id">#{{ profesor.id }}</span>
+            </div>
+            <div class="card__body">
+              <h3>{{ profesor.nombre }} {{ profesor.apellidos }}</h3>
+              <div class="tag">
+                <span class="tag__icon">🎓</span>
+                <span>{{ profesor.especialidad }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>
