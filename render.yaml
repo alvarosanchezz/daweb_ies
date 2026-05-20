@@ -9,8 +9,6 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: pro
-      - key: PORT
-        value: 8080
 
   # ── Frontend: Angular SSR (Node.js) ────────────────────────────────────────
   - type: web
