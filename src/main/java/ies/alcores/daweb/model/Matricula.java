@@ -1,5 +1,6 @@
 package ies.alcores.daweb.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class Matricula {
 
     @Id
+    @Column(name = "id_mat")
     private long id;
     private int curso;
     private double notaMedia;
