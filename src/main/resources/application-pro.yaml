@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgre_bbdd_user:B4njRTMp6QYawguaBcn9mKok0x01lvv5@dpg-d80p7lrrjlhs73ahhdpg-a.frankfurt-postgres.render.com/postgre_bbdd
+    url: jdbc:postgresql://dpg-d80p7lrrjlhs73ahhdpg-a.frankfurt-postgres.render.com:5432/postgre_bbdd
     username: postgre_bbdd_user
     password: B4njRTMp6QYawguaBcn9mKok0x01lvv5
     driver-class-name: org.postgresql.Driver
@@ -12,4 +12,5 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false

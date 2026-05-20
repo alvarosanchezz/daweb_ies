@@ -16,7 +16,7 @@ services:
     runtime: node
     rootDir: daweb_frontend
     plan: free
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: node dist/daweb_frontend/server/server.mjs
     envVars:
       - key: NODE_ENV
