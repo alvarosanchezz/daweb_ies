@@ -1,3 +1,12 @@
+databases:
+
+  # ── PostgreSQL gestionada por Render (plan free, región Frankfurt) ──────────
+  - name: daweb-db
+    plan: free
+    region: frankfurt
+    databaseName: postgre_bbdd
+    user: postgre_bbdd_user
+
 services:
 
   # ── Backend: Spring Boot (Docker) ──────────────────────────────────────────
@@ -6,9 +15,30 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
+    region: frankfurt
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: pro
+      - key: DB_HOST
+        fromDatabase:
+          name: daweb-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: daweb-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: daweb-db
+          property: database
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: daweb-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: daweb-db
+          property: password
 
   # ── Frontend: Angular SSR (Node.js) ────────────────────────────────────────
   - type: web
@@ -16,6 +46,7 @@ services:
     runtime: node
     rootDir: daweb_frontend
     plan: free
+    region: frankfurt
     buildCommand: npm install --include=dev && npm run build
     startCommand: node dist/daweb_frontend/server/server.mjs
     envVars:
